@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://l4skovjy7kjl"]
+
+[ext_resource type="Script" uid="uid://b70242wiip1ob" path="res://Player.gd" id="1_a202f"]
+[ext_resource type="ArrayMesh" uid="uid://b7jsqh2j3syqv" path="res://bike.obj" id="2_kpjcp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kpjcp"]
+size = Vector3(0.16265869, 1, 1.7767334)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kpjcp"]
+albedo_color = Color(0.2627451, 1, 1, 1)
+
+[node name="Player" type="Node3D" unique_id=476904958 groups=["player"]]
+script = ExtResource("1_a202f")
+
+[node name="Pivot" type="CharacterBody3D" parent="." unique_id=1632741189]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot" unique_id=411645656]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0132751465, 0.1387386, 0.55891335)
+shape = SubResource("BoxShape3D_kpjcp")
+
+[node name="Body" type="Node3D" parent="Pivot" unique_id=970932848]
+
+[node name="Camera3D" type="Camera3D" parent="Pivot/Body" unique_id=1525814970]
+transform = Transform3D(1, 0, 0, 0, 0.87343246, 0.4869453, 0, -0.4869453, 0.87343246, 0, 1.428479, 2.4548335)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot/Body" unique_id=1731097547]
+transform = Transform3D(-1.8795896e-08, 0, 0.43, 0, 0.43, 0, -0.43, 0, -1.8795896e-08, 0, -0.35198405, 0.36445177)
+mesh = ExtResource("2_kpjcp")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_kpjcp")
+
+[connection signal="ready" from="." to="." method="_on_ready"]

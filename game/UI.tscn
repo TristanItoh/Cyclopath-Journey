@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://c5n8xtnr63ch"]
+
+[ext_resource type="Script" uid="uid://cuqnklc5g0q7n" path="res://PedalUI.gd" id="1_3b2b5"]
+[ext_resource type="Texture2D" uid="uid://cugl1eevrq0pu" path="res://redcirc.png" id="2_vrfts"]
+[ext_resource type="Texture2D" uid="uid://dqxytpju5gkac" path="res://bluecirc.png" id="3_0mc3e"]
+[ext_resource type="Texture2D" uid="uid://b02wtoyruf0ef" path="res://pedalwheel.png" id="3_qui0h"]
+[ext_resource type="Texture2D" uid="uid://bj1avre7pfp6a" path="res://pedalwheeltick.png" id="4_vrfts"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="PedalCenter" type="Node2D" parent="."]
+position = Vector2(200, 500)
+script = ExtResource("1_3b2b5")
+
+[node name="Spin" type="Node2D" parent="PedalCenter"]
+
+[node name="Left" type="TextureRect" parent="PedalCenter/Spin"]
+z_index = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 80.0
+offset_top = -20.0
+offset_right = 120.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_0mc3e")
+expand_mode = 1
+
+[node name="Right" type="TextureRect" parent="PedalCenter/Spin"]
+z_index = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -20.0
+offset_right = -80.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_vrfts")
+expand_mode = 1
+
+[node name="Wheel" type="TextureRect" parent="PedalCenter/Spin"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -110.0
+offset_right = 110.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_qui0h")
+expand_mode = 1
+
+[node name="Tick" type="TextureRect" parent="PedalCenter"]
+z_index = 5
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -110.0
+offset_right = 25.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_vrfts")
+expand_mode = 1
+
+[node name="Combo" type="Label" parent="PedalCenter"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -150.0
+offset_right = 64.0
+offset_bottom = -117.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "PERFECT (3x)"
+horizontal_alignment = 1
+vertical_alignment = 1
