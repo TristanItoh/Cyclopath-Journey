@@ -1,13 +1,30 @@
 [gd_scene format=3 uid="uid://l4skovjy7kjl"]
 
 [ext_resource type="Script" uid="uid://b70242wiip1ob" path="res://Player.gd" id="1_a202f"]
-[ext_resource type="ArrayMesh" uid="uid://b7jsqh2j3syqv" path="res://bike.obj" id="2_kpjcp"]
+[ext_resource type="ArrayMesh" uid="uid://b3ukukhb5i2v3" path="res://BikeBody.obj" id="2_kne1u"]
+[ext_resource type="Texture2D" uid="uid://cy1et4dyelrae" path="res://4096/Low Poly Cycles Staggered_Low Poly Cycles (BMX, Mountain Bike, Unicycle) 1_BaseColor.png" id="3_5ncpa"]
+[ext_resource type="ArrayMesh" uid="uid://ins7n0pv514l" path="res://Pedals3.obj" id="3_e80uo"]
+[ext_resource type="PackedScene" uid="uid://cbaebnl2ka5hh" path="res://PedalsUI.tscn" id="4_e80uo"]
+[ext_resource type="Texture2D" uid="uid://dl4db66vv2qs2" path="res://4096/Low Poly Cycles Staggered_Low Poly Cycles (BMX, Mountain Bike, Unicycle) 1_Metallic.png" id="4_wi0c6"]
+[ext_resource type="Texture2D" uid="uid://docbflbsgdfbw" path="res://4096/Low Poly Cycles Staggered_Low Poly Cycles (BMX, Mountain Bike, Unicycle) 1_Normal.png" id="5_hp6x6"]
+[ext_resource type="Texture2D" uid="uid://cxm6123s12wvt" path="res://4096/Low Poly Cycles Staggered_Low Poly Cycles (BMX, Mountain Bike, Unicycle) 1_Roughness.png" id="6_3tkgg"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_kpjcp"]
-size = Vector3(0.16265869, 1, 1.7767334)
+size = Vector3(0.16265869, 1.2036133, 1.8248901)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kpjcp"]
-albedo_color = Color(0.2627451, 1, 1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l6ohk"]
+albedo_texture = ExtResource("3_5ncpa")
+metallic = 1.0
+metallic_texture = ExtResource("4_wi0c6")
+roughness_texture = ExtResource("6_3tkgg")
+normal_enabled = true
+normal_texture = ExtResource("5_hp6x6")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oudfo"]
+albedo_texture = ExtResource("3_5ncpa")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_iw27f"]
+viewport_path = NodePath("Pivot/Body/Pedals/Node3D/SubViewport")
 
 [node name="Player" type="Node3D" unique_id=476904958 groups=["player"]]
 script = ExtResource("1_a202f")
@@ -15,7 +32,7 @@ script = ExtResource("1_a202f")
 [node name="Pivot" type="CharacterBody3D" parent="." unique_id=1632741189]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pivot" unique_id=411645656]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0132751465, 0.1387386, 0.55891335)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0132751465, 0.24054524, 0.5829917)
 shape = SubResource("BoxShape3D_kpjcp")
 
 [node name="Body" type="Node3D" parent="Pivot" unique_id=970932848]
@@ -23,10 +40,32 @@ shape = SubResource("BoxShape3D_kpjcp")
 [node name="Camera3D" type="Camera3D" parent="Pivot/Body" unique_id=1525814970]
 transform = Transform3D(1, 0, 0, 0, 0.87343246, 0.4869453, 0, -0.4869453, 0.87343246, 0, 1.428479, 2.4548335)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot/Body" unique_id=1731097547]
-transform = Transform3D(-1.8795896e-08, 0, 0.43, 0, 0.43, 0, -0.43, 0, -1.8795896e-08, 0, -0.35198405, 0.36445177)
-mesh = ExtResource("2_kpjcp")
-skeleton = NodePath("")
-surface_material_override/0 = SubResource("StandardMaterial3D_kpjcp")
+[node name="BikeBody" type="MeshInstance3D" parent="Pivot/Body" unique_id=831729480]
+transform = Transform3D(0.555, 0, 0, 0, 0.555, 0, 0, 0, 0.555, 0, -0.35, 2.765)
+mesh = ExtResource("2_kne1u")
+surface_material_override/0 = SubResource("StandardMaterial3D_l6ohk")
+surface_material_override/1 = SubResource("StandardMaterial3D_l6ohk")
+surface_material_override/2 = SubResource("StandardMaterial3D_l6ohk")
+surface_material_override/3 = SubResource("StandardMaterial3D_l6ohk")
+
+[node name="Pedals" type="MeshInstance3D" parent="Pivot/Body" unique_id=1302610280]
+transform = Transform3D(0.555, 0, 0, 0, 0.555, 0, 0, 0, 0.555, -0.034773186, 0.033186346, 0.7167251)
+mesh = ExtResource("3_e80uo")
+skeleton = NodePath("../BikeBody")
+surface_material_override/0 = SubResource("StandardMaterial3D_oudfo")
+
+[node name="Node3D" type="Node3D" parent="Pivot/Body/Pedals" unique_id=1948162664]
+transform = Transform3D(0.31, 0, 0, 0, 0.31, 0, 0, 0, 0.31, 0.405, 0, 0)
+
+[node name="SubViewport" type="SubViewport" parent="Pivot/Body/Pedals/Node3D" unique_id=1800026338]
+transparent_bg = true
+size = Vector2i(707, 633)
+render_target_update_mode = 4
+
+[node name="PedalUI" parent="Pivot/Body/Pedals/Node3D/SubViewport" unique_id=1686786709 instance=ExtResource("4_e80uo")]
+
+[node name="Sprite3D" type="Sprite3D" parent="Pivot/Body/Pedals/Node3D" unique_id=1641792855]
+billboard = 1
+texture = SubResource("ViewportTexture_iw27f")
 
 [connection signal="ready" from="." to="." method="_on_ready"]

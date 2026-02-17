@@ -1,0 +1,14 @@
+# Blender 5.0.1 MTL File: 'Free Low Poly Bike Models Textured.blend'
+# www.blender.org
+
+newmtl Low_Poly_Cycles_(BMX,_Mountain_Bike,_Unicycle)_1
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /home/tristan-itoh/Downloads/WIP/Textures/PBR MetalicRoughness/4096/Low Poly Cycles Staggered_Low Poly Cycles (BMX, Mountain Bike, Unicycle) 1_BaseColor.png
+map_Ns /home/tristan-itoh/Downloads/WIP/Textures/PBR MetalicRoughness/4096/Low Poly Cycles Staggered_Low Poly Cycles (BMX, Mountain Bike, Unicycle) 1_Roughness.png
+map_refl /home/tristan-itoh/Downloads/WIP/Textures/PBR MetalicRoughness/4096/Low Poly Cycles Staggered_Low Poly Cycles (BMX, Mountain Bike, Unicycle) 1_Metallic.png
+map_Bump -bm 1.000000 /home/tristan-itoh/Downloads/WIP/Textures/PBR MetalicRoughness/4096/Low Poly Cycles Staggered_Low Poly Cycles (BMX, Mountain Bike, Unicycle) 1_Normal.png

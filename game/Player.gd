@@ -3,10 +3,22 @@ extends Node3D
 signal rotation_speed_changed(new_speed: float)
 signal speed_multiplier_changed(speed_multiplier: float)
 signal pedal_feedback(result: String, combo: int)
+signal bike_crashed()
 
 @onready var pivot: CharacterBody3D = $Pivot  # Change this to CharacterBody3D!
 @onready var body: Node3D = $Pivot/Body  # Change this to Node3D!
 @onready var camera: Camera3D = $Pivot/Body/Camera3D
+@onready var pedals = $Pivot/Body/Pedals  # adjust path as needed
+
+# Collision detection nodes (create these in your scene!)
+@onready var collision_ray: RayCast3D = $Pivot/CollisionRay
+@onready var collision_area: Area3D = $Pivot/CollisionArea
+
+@onready var pedal_ui = $Pivot/Body/Pedals/Node3D/SubViewport/PedalUI/Control  # adjust path
+
+const TICKER_MID: float = 209.0
+const PERFECT_ZONE_PX: float = 27.0  # pixels from center = perfect
+const OK_ZONE_PX: float = 59.0       # pixels from center = okay
 
 # movement vars
 var move_speed := 0.0
@@ -37,6 +49,9 @@ var red_angle := 0.0
 var blue_angle := 180.0
 const TOP_ANGLE := 90.0
 
+const PEDAL_CYCLE_DURATION = 1.0
+var pedal_rotation_speed: float = TAU / (PEDAL_CYCLE_DURATION * 2)  # radians per second
+
 var base_fov := 75.0
 var max_fov := 125.0
 var fov_lerp_speed := 1.0
@@ -52,14 +67,16 @@ var prev_pivot_pos := Vector3.ZERO
 var cam_dynamic_offset := Vector3.ZERO
 var cam_offset_speed := 2.0
 
-# timing zones
-const PERFECT_ZONE := 5.0
-const OK_ZONE := 10.0
-
 # combo system
 var combo := 0
 var speed_multiplier := 1.0
 var max_multiplier := 4.0
+
+# crash detection
+var crash_speed_threshold := 5.0  # minimum speed to crash
+var is_crashed := false
+var crash_cooldown := 0.0
+var crash_cooldown_time := 1.0
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -69,7 +86,13 @@ func _ready():
 	camera.global_transform.origin = pivot.global_transform.origin + rotated_offset
 
 func _physics_process(delta: float) -> void:
+	# Update crash cooldown
+	if crash_cooldown > 0.0:
+		crash_cooldown -= delta
+	
 	_update_pedals(delta)
+	
+	pedals.rotation.x -= pedal_rotation_speed * delta
 
 	# Apply steering rotation to Pivot
 	turn_angle = lerp(turn_angle, turn_target, delta * turn_rate)
@@ -100,6 +123,9 @@ func _physics_process(delta: float) -> void:
 	
 	# Move with physics (Pivot now handles physics)
 	pivot.move_and_slide()
+	
+	# CRASH DETECTION - Check for wall/obstacle collisions
+	_check_collisions()
 	
 	# ALIGN BODY TO SLOPE (Body is now just visual, no physics)
 	if pivot.is_on_floor():
@@ -159,49 +185,171 @@ func _physics_process(delta: float) -> void:
 
 	# slow down
 	move_speed = lerp(move_speed, 0.0, delta * 0.15)
+
+func _check_collisions() -> void:
+	# SIMPLIFIED - just detect ANY collision while moving
+	if crash_cooldown > 0.0:
+		return
+	
+	# METHOD 1: Check slide collisions (for static bodies/CharacterBody3D)
+	for i in range(pivot.get_slide_collision_count()):
+		var collision = pivot.get_slide_collision(i)
+		var collider = collision.get_collider()
+		var collision_normal = collision.get_normal()
+		
+		# Only crash if the collider is in the "obstacle" group
+		if collider and collider.is_in_group("obstacle"):
+			print("💥 CRASHED!")
+			print("   Hit obstacle:", collider.name)
+			_handle_crash(collision)
+			return
+	
+	# METHOD 2: Check RigidBody3D collisions using raycast
+	if collision_ray and collision_ray.is_colliding():
+		var collider = collision_ray.get_collider()
+		
+		# Only crash if it's in the obstacle group
+		if collider and collider.is_in_group("obstacle"):
+			var collision_normal = collision_ray.get_collision_normal()
+			print("💥 CRASHED via RayCast!")
+			print("   Hit obstacle:", collider.name)
+			
+			if collider is RigidBody3D:
+				_handle_rigidbody_crash(collider, collision_normal)
+			else:
+				# Create a minimal crash handler for non-rigidbodies
+				is_crashed = true
+				crash_cooldown = crash_cooldown_time
+				move_speed *= 0.3
+				combo = 0
+				speed_multiplier = 1.0
+				emit_signal("bike_crashed")
+			return
+	
+	# METHOD 3: Check Area3D overlaps
+	if collision_area:
+		var overlapping_bodies = collision_area.get_overlapping_bodies()
+		
+		for body_node in overlapping_bodies:
+			if body_node != pivot and body_node.is_in_group("obstacle"):
+				print("💥 CRASHED via Area3D!")
+				print("   Hit obstacle:", body_node.name)
+				
+				var normal = (pivot.global_position - body_node.global_position).normalized()
+				
+				if body_node is RigidBody3D:
+					_handle_rigidbody_crash(body_node, normal)
+				else:
+					is_crashed = true
+					crash_cooldown = crash_cooldown_time
+					move_speed *= 0.3
+					combo = 0
+					speed_multiplier = 1.0
+					emit_signal("bike_crashed")
+				return
+
+func _handle_rigidbody_crash(rigidbody: RigidBody3D, collision_normal: Vector3) -> void:
+	"""Handle crash with a RigidBody3D"""
+	# Crash effects
+	is_crashed = true
+	crash_cooldown = crash_cooldown_time
+	
+	# Apply impulse to the RigidBody
+	var impact_point = pivot.global_position + (-pivot.transform.basis.z * 1.0)
+	var impulse = -collision_normal * move_speed * 5.0  # Adjust multiplier as needed
+	rigidbody.apply_impulse(impulse, impact_point - rigidbody.global_position)
+	
+	# Reduce speed dramatically
+	move_speed *= 0.3
+	
+	# Reset combo
+	combo = 0
+	speed_multiplier = 1.0
+	rotation_speed = base_rotation_speed
+	
+	# Add some tilt based on impact direction
+	var right_dir = pivot.transform.basis.x
+	var side_impact = collision_normal.dot(right_dir)
+	tilt += side_impact * 15.0
+	
+	# Emit signal for other systems to react
+	emit_signal("bike_crashed")
+	emit_signal("speed_multiplier_changed", speed_multiplier)
+	
+	# Reset after a moment
+	await get_tree().create_timer(0.5).timeout
+	is_crashed = false
+
+func _handle_crash(collision: KinematicCollision3D) -> void:
+	print("💥 CRASHED!")
+	
+	# Get what we hit
+	var collider = collision.get_collider()
+	if collider:
+		print("   Hit:", collider.name)
+	
+	# Crash effects
+	is_crashed = true
+	crash_cooldown = crash_cooldown_time
+	
+	# Reduce speed dramatically
+	move_speed *= 0.3
+	
+	# Reset combo
+	combo = 0
+	speed_multiplier = 1.0
+	rotation_speed = base_rotation_speed
+	
+	# Add some tilt based on impact direction
+	var impact_direction = collision.get_normal()
+	var right_dir = pivot.transform.basis.x
+	var side_impact = impact_direction.dot(right_dir)
+	tilt += side_impact * 15.0  # Tilt away from impact
+	
+	# Emit signal for other systems to react
+	emit_signal("bike_crashed")
+	emit_signal("speed_multiplier_changed", speed_multiplier)
+	
+	# Reset after a moment
+	await get_tree().create_timer(0.5).timeout
+	is_crashed = false
 	
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		turn_target = clamp(turn_target - event.relative.x * turn_sensitivity * 0.01, -max_turn_target, max_turn_target)
-		print("🌀 Steering:", "%.2f" % turn_target)
 
 	if event.is_action_pressed("left_click"):
-		_check_pedal_timing("left", red_angle)
+		if pedal_ui.is_left_active():
+			_check_pedal_timing("left", pedal_ui.get_left_ticker_y())
+		else:
+			print("Left clicked but right is active")
 	elif event.is_action_pressed("right_click"):
-		_check_pedal_timing("right", blue_angle)
+		if not pedal_ui.is_left_active():
+			_check_pedal_timing("right", pedal_ui.get_right_ticker_y())
 
 func _update_pedals(delta: float) -> void:
 	red_angle = fposmod(red_angle + rotation_speed * delta, 360.0)
 	blue_angle = fposmod(blue_angle + rotation_speed * delta, 360.0)
 
-func _check_pedal_timing(side: String, angle: float) -> void:
-	var diff = abs(angle - TOP_ANGLE)
-	diff = min(diff, 360.0 - diff)
-
+func _check_pedal_timing(side: String, ticker_y: float) -> void:
+	var diff = abs(ticker_y - TICKER_MID)
+	
 	var result := ""
-	if diff <= PERFECT_ZONE:
+	if diff <= PERFECT_ZONE_PX:
 		result = "PERFECT"
 		combo += 1
-		_pedal_result(result, side, 1.5)
-	elif diff <= OK_ZONE:
+		_pedal_result(result, side, 0.8)
+	elif diff <= OK_ZONE_PX:
 		result = "OKAY"
 		combo += 1
-		_pedal_result(result, side, 0.8)
+		_pedal_result(result, side, -0.3)
 	else:
 		result = "MISS"
 		combo = 0
 		_pedal_result(result, side, -0.3)
-
+		
 	speed_multiplier = 1.0 + float(combo) * 0.1
 	speed_multiplier = clamp(speed_multiplier, 1.0, max_multiplier)
-
-	rotation_speed = base_rotation_speed * speed_multiplier
-	emit_signal("rotation_speed_changed", rotation_speed)
-	emit_signal("speed_multiplier_changed", speed_multiplier)
-	emit_signal("pedal_feedback", result, combo)
-
-	print("💪 Combo:", combo, "| ⚡ Multiplier:", "%.2f" % speed_multiplier, "| 🌀 Rotation Speed:", "%.1f" % rotation_speed)
-	print("🎯 Timing Diff (", side, "):", "%.2f°" % diff, "| Result:", result)
 
 func _pedal_result(result: String, side: String, thrust: float) -> void:
 	move_speed += thrust * (0.8 + (speed_multiplier - 1.0) * 0.5)

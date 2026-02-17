@@ -48,3 +48,26 @@ right_click={
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+
+[shader_globals]
+
+fresnel_smoothness={
+"type": "float",
+"value": 0.05
+}
+outline_color={
+"type": "color",
+"value": Color(0, 0, 0, 1)
+}
+specular_smoothness={
+"type": "float",
+"value": 0.05
+}
+outline_width={
+"type": "int",
+"value": 4
+}
+diffuse_curve={
+"type": "sampler2D",
+"value": "::xycm3"
+}
