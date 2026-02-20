@@ -19,6 +19,12 @@ run/main_scene="uid://nka081q20k64"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/mode=3
+window/size/resizable=false
+window/stretch/mode="canvas_items"
+
 [dotnet]
 
 project/assembly_name="Cyclopath"
