@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cwfk2y8hu5svv"
+path="res://.godot/imported/rock-flat.obj-e093c1047bab3e117bb4d890afb33139.mesh"
+
+[deps]
+
+files=["res://.godot/imported/rock-flat.obj-e093c1047bab3e117bb4d890afb33139.mesh"]
+
+source_file="res://pack 2/rock-flat.obj"
+dest_files=["res://.godot/imported/rock-flat.obj-e093c1047bab3e117bb4d890afb33139.mesh", "res://.godot/imported/rock-flat.obj-e093c1047bab3e117bb4d890afb33139.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

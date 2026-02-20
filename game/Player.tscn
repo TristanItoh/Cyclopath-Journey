@@ -23,8 +23,13 @@ normal_texture = ExtResource("5_hp6x6")
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oudfo"]
 albedo_texture = ExtResource("3_5ncpa")
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_iw27f"]
-viewport_path = NodePath("Pivot/Body/Pedals/Node3D/SubViewport")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5ncpa"]
+albedo_color = Color(0.18717614, 0.18717614, 0.18717614, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_wi0c6"]
+material = SubResource("StandardMaterial3D_5ncpa")
+radius = 0.05
+height = 0.1
 
 [node name="Player" type="Node3D" unique_id=476904958 groups=["player"]]
 script = ExtResource("1_a202f")
@@ -54,18 +59,16 @@ mesh = ExtResource("3_e80uo")
 skeleton = NodePath("../BikeBody")
 surface_material_override/0 = SubResource("StandardMaterial3D_oudfo")
 
-[node name="Node3D" type="Node3D" parent="Pivot/Body/Pedals" unique_id=1948162664]
-transform = Transform3D(0.31, 0, 0, 0, 0.31, 0, 0, 0, 0.31, 0.405, 0, 0)
+[node name="Particles" type="CPUParticles3D" parent="Pivot/Body" unique_id=540836011]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.19205964, 1.4237416)
+mesh = SubResource("SphereMesh_wi0c6")
+emission_shape = 1
+emission_sphere_radius = 0.2
+direction = Vector3(0, 5, 5)
+spread = 5.0
+initial_velocity_min = 1.0
+initial_velocity_max = 5.0
 
-[node name="SubViewport" type="SubViewport" parent="Pivot/Body/Pedals/Node3D" unique_id=1800026338]
-transparent_bg = true
-size = Vector2i(707, 633)
-render_target_update_mode = 4
-
-[node name="PedalUI" parent="Pivot/Body/Pedals/Node3D/SubViewport" unique_id=1686786709 instance=ExtResource("4_e80uo")]
-
-[node name="Sprite3D" type="Sprite3D" parent="Pivot/Body/Pedals/Node3D" unique_id=1641792855]
-billboard = 1
-texture = SubResource("ViewportTexture_iw27f")
+[node name="PedalUI" parent="." unique_id=1469313910 instance=ExtResource("4_e80uo")]
 
 [connection signal="ready" from="." to="." method="_on_ready"]

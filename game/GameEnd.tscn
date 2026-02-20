@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://b0qpgjp5ejx1v"]
+
+[node name="Node2D" type="Node2D" unique_id=651673387]
+
+[node name="Control" type="Control" parent="." unique_id=1244733849]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Control" unique_id=489330064]
+layout_mode = 0
+offset_left = 315.0
+offset_top = 311.0
+offset_right = 795.0
+offset_bottom = 334.0
+text = "thanks for playing. sorry it kinda sucks i didnt have much time"

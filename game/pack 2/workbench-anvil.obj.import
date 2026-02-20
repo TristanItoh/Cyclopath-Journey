@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://2tuftcodivtn"
+path="res://.godot/imported/workbench-anvil.obj-1700f4cbf8a3cd09ff17f1cf1cc6ee18.mesh"
+
+[deps]
+
+files=["res://.godot/imported/workbench-anvil.obj-1700f4cbf8a3cd09ff17f1cf1cc6ee18.mesh"]
+
+source_file="res://pack 2/workbench-anvil.obj"
+dest_files=["res://.godot/imported/workbench-anvil.obj-1700f4cbf8a3cd09ff17f1cf1cc6ee18.mesh", "res://.godot/imported/workbench-anvil.obj-1700f4cbf8a3cd09ff17f1cf1cc6ee18.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

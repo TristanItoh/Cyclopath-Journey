@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dg1e2kskjcm07"
+path="res://.godot/imported/structure-floor.obj-786ca9939c8438a69c596e9067a7c4e0.mesh"
+
+[deps]
+
+files=["res://.godot/imported/structure-floor.obj-786ca9939c8438a69c596e9067a7c4e0.mesh"]
+
+source_file="res://pack 2/structure-floor.obj"
+dest_files=["res://.godot/imported/structure-floor.obj-786ca9939c8438a69c596e9067a7c4e0.mesh", "res://.godot/imported/structure-floor.obj-786ca9939c8438a69c596e9067a7c4e0.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

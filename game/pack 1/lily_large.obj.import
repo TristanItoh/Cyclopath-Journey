@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bmu2jp4au6p0a"
+path="res://.godot/imported/lily_large.obj-295740d518b73fc82d6bbe32b9a69bc7.mesh"
+
+[deps]
+
+files=["res://.godot/imported/lily_large.obj-295740d518b73fc82d6bbe32b9a69bc7.mesh"]
+
+source_file="res://pack 1/lily_large.obj"
+dest_files=["res://.godot/imported/lily_large.obj-295740d518b73fc82d6bbe32b9a69bc7.mesh", "res://.godot/imported/lily_large.obj-295740d518b73fc82d6bbe32b9a69bc7.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bei7l8273ee71"
+path="res://.godot/imported/path_woodCorner.obj-6f07e75267c9c7021604a4c3c1b2a3fc.mesh"
+
+[deps]
+
+files=["res://.godot/imported/path_woodCorner.obj-6f07e75267c9c7021604a4c3c1b2a3fc.mesh"]
+
+source_file="res://pack 1/path_woodCorner.obj"
+dest_files=["res://.godot/imported/path_woodCorner.obj-6f07e75267c9c7021604a4c3c1b2a3fc.mesh", "res://.godot/imported/path_woodCorner.obj-6f07e75267c9c7021604a4c3c1b2a3fc.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false

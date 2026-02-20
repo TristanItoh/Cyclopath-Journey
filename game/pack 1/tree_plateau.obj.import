@@ -1,0 +1,25 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c5syxn7emde7a"
+path="res://.godot/imported/tree_plateau.obj-4b81178bca8d5d2655af1e964cdb8c5f.mesh"
+
+[deps]
+
+files=["res://.godot/imported/tree_plateau.obj-4b81178bca8d5d2655af1e964cdb8c5f.mesh"]
+
+source_file="res://pack 1/tree_plateau.obj"
+dest_files=["res://.godot/imported/tree_plateau.obj-4b81178bca8d5d2655af1e964cdb8c5f.mesh", "res://.godot/imported/tree_plateau.obj-4b81178bca8d5d2655af1e964cdb8c5f.mesh"]
+
+[params]
+
+generate_tangents=true
+generate_lods=true
+generate_shadow_mesh=true
+generate_lightmap_uv2=false
+generate_lightmap_uv2_texel_size=0.2
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+force_disable_mesh_compression=false
