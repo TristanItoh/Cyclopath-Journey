@@ -74,10 +74,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -38.0
-offset_top = -109.0
-offset_right = 38.0
-offset_bottom = 109.0
+offset_left = -37.999954
+offset_top = -99.0
+offset_right = 38.000046
+offset_bottom = 99.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_i247h")
@@ -90,18 +90,18 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -38.0
-offset_top = -47.0
+offset_top = -37.0
 offset_right = 38.0
-offset_bottom = 47.0
+offset_bottom = 37.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_i247h")
 
 [node name="Ticker" type="Panel" parent="Control/Left" unique_id=199177397]
 layout_mode = 0
-offset_top = 99.0
+offset_top = 172.0
 offset_right = 108.0
-offset_bottom = 119.0
+offset_bottom = 192.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_8efd6")
 
 [node name="Overlay" type="Panel" parent="Control/Left" unique_id=1477892875]
@@ -134,22 +134,22 @@ offset_right = 108.0
 offset_bottom = 438.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_xycm3")
 
-[node name="Correct" type="Panel" parent="Control/Right" unique_id=3395935]
+[node name="Correct" type="Panel" parent="Control/Right" unique_id=672928922]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -38.0
-offset_top = -109.0
-offset_right = 38.0
-offset_bottom = 109.0
+offset_left = -37.999954
+offset_top = -99.0
+offset_right = 38.000046
+offset_bottom = 99.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_i247h")
 
-[node name="Panel" type="Panel" parent="Control/Right/Correct" unique_id=1824339956]
+[node name="Panel" type="Panel" parent="Control/Right/Correct" unique_id=1024413075]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -157,9 +157,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -38.0
-offset_top = -47.0
+offset_top = -37.0
 offset_right = 38.0
-offset_bottom = 47.0
+offset_bottom = 37.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_i247h")

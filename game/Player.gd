@@ -22,8 +22,8 @@ signal bike_crashed()
 @onready var particles: CPUParticles3D = $Pivot/Body/Particles
 
 const TICKER_MID: float = 209.0
-const PERFECT_ZONE_PX: float = 47.0  # pixels from center = perfect
-const OK_ZONE_PX: float = 99.0       # pixels from center = okay
+const PERFECT_ZONE_PX: float = 37.0  # pixels from center = perfect
+const OK_ZONE_PX: float = 89.0       # pixels from center = okay
 
 # movement vars
 var move_speed := 0.0
@@ -125,8 +125,17 @@ func _physics_process(delta: float) -> void:
 	if abs(tilt) > fall_threshold:
 		print("you just fell over")
 		tilt = 0.0
-		move_speed = 0.0
 		turn_target = 0.0
+		is_crashed = true
+		crash_cooldown = crash_cooldown_time
+		combo = 0
+		speed_multiplier = 1.0
+		rotation_speed = base_rotation_speed
+		label_type.text = "CRASHED"
+		label_streak.text = "Streak: x0"
+		emit_signal("bike_crashed")
+		emit_signal("speed_multiplier_changed", speed_multiplier)
+		_teleport_to_checkpoint()
 	
 	var forward_dir = pivot.transform.basis.z.normalized()
 
@@ -446,16 +455,13 @@ func _on_checkpoint_entered(body: Node3D, idx: int) -> void:
 	checkpoints[idx].visible = false
 	current_checkpoint += 1
 	
-	# Switch scene at checkpoint 20
-	if current_checkpoint == 20:
-		get_tree().change_scene_to_file("res://GameEnd.gd")
-		return
 	
 	if current_checkpoint < checkpoints.size():
 		checkpoints[current_checkpoint].visible = true
 		print("Checkpoint ", current_checkpoint, " activated!")
 	else:
 		print("All checkpoints complete!")
+		get_tree().change_scene_to_file("res://GameEnd.tscn")
 	
 	last_checkpoint_position = checkpoints[idx].global_position
 	last_checkpoint_rotation = checkpoints[idx].global_rotation.y
